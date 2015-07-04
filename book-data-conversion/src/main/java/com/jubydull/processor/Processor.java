@@ -9,8 +9,12 @@ import com.jubydull.formatenum.FormatEnum;
 import com.jubydull.parser.Parser;
 import com.jubydull.parser.context.ParserContext;
 import com.jubydull.parser.manager.ParsingManager;
+import com.jubydull.persist.context.PersistContext;
+import com.jubydull.persist.impl.TextPersist;
+import com.jubydull.persist.manager.PersistManager;
 import com.jubydull.viewer.context.ViewerContext;
 import com.jubydull.viewer.impl.JsonViewer;
+import com.jubydull.viewer.impl.TextViewer;
 import com.jubydull.viewer.manager.ViewerManager;
 
 public class Processor {
@@ -36,18 +40,25 @@ public class Processor {
 
 					BookInformation bookInformation = parsingManager.parse(
 							parserContext, file);
+					File propertiesFile;
+					if (bookInformation != null) {
+						propertiesFile = getFilePath(FILE_PATH_PREFIX
+								+ "book-info-converter.properties");
 
-					File propertiesFile = getFilePath(FILE_PATH_PREFIX
-							+ "book-info-converter.properties");
+						ViewerContext viewerContext = Util.setViewerForFile(Util.chooseViewForFile(propertiesFile));
+						ViewerManager manager = new ViewerManager();
+						manager.parse(viewerContext, bookInformation);
 
-					ViewerContext viewerContext = new ViewerContext();
-					if (Util.chooseViewForFile(propertiesFile).equals(
-							FormatEnum.json.toString())) {
-						viewerContext.setViewer(new JsonViewer());
+						if (Util.checkEnableStorage(propertiesFile)) {
+							PersistManager persistManager = new PersistManager();
+							PersistContext persistContext = new PersistContext();
+							persistContext.setPersist(new TextPersist());
+							persistManager.persist(persistContext,
+									bookInformation);
+
+						}
+
 					}
-
-					ViewerManager manager = new ViewerManager();
-					manager.parse(viewerContext, bookInformation);
 				}
 			}
 

@@ -11,6 +11,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.google.gson.Gson;
+import com.jubydull.FileExeption.ConversionException;
 import com.jubydull.bean.BookInformation;
 import com.jubydull.parser.Parser;
 
@@ -26,14 +27,20 @@ public class JsonParser implements Parser {
 
 			try {
 
-				jsonBookInformation = (JSONObject) parser
-						.parse(new InputStreamReader(new FileInputStream(file)));
-				String bookInformationStr = jsonBookInformation.get("book")
-						.toString().replace("­", "");
+				jsonBookInformation = (JSONObject) parser.parse(new InputStreamReader(new FileInputStream(file)));
+				String bookInformationStr = jsonBookInformation.get("book").toString().replace("­", "");
 
 				Gson gson = new Gson();
-				bookInformation = gson.fromJson(bookInformationStr,
-						BookInformation.class);
+				bookInformation = gson.fromJson(bookInformationStr, BookInformation.class);
+				if (bookInformation.getIsbn() == null || bookInformation.getName().equals("")) {
+					try {
+						throw new ConversionException("ISBN Number not found");
+					} catch (Exception e) {
+						System.out.println(e.getLocalizedMessage());
+						return null;
+					}
+
+				}
 
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();

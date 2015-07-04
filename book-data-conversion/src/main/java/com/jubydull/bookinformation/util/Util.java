@@ -11,6 +11,9 @@ import com.jubydull.formatenum.FormatEnum;
 import com.jubydull.parser.Parser;
 import com.jubydull.parser.impl.JsonParser;
 import com.jubydull.parser.impl.TextParser;
+import com.jubydull.viewer.context.ViewerContext;
+import com.jubydull.viewer.impl.JsonViewer;
+import com.jubydull.viewer.impl.TextViewer;
 
 public class Util {
 
@@ -47,5 +50,39 @@ public class Util {
 		}
 
 		return targetFormat;
+	}
+
+	public static boolean checkEnableStorage(File file) {
+		Properties properties = new Properties();
+		InputStream input = null;
+		String storage = "";
+		try {
+			input = new FileInputStream(file);
+			properties.load(input);
+			storage = properties.getProperty("storageEnabled");
+			if (storage.equals("true")) {
+				return true;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public static ViewerContext setViewerForFile(String targerFormat){
+		
+		ViewerContext viewerContext = new ViewerContext();
+		if (targerFormat.equals(
+				FormatEnum.json.toString())) {
+			viewerContext.setViewer(new JsonViewer());
+		} else if (targerFormat
+				.equals(FormatEnum.txt.toString())) {
+			viewerContext.setViewer(new TextViewer());
+		} else {
+			viewerContext.setViewer(null);
+		}
+		
+		return viewerContext;
+
 	}
 }

@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import com.jubydull.FileExeption.ConversionException;
 import com.jubydull.bean.BookInformation;
 import com.jubydull.parser.Parser;
 
@@ -19,8 +20,12 @@ public class TextParser implements Parser {
 			String line;
 			try {
 				while ((line = reader.readLine()) != null) {
-
 					String lineSplit[] = line.split(":");
+
+					if (lineSplit[0].equalsIgnoreCase("isbn")) {
+						bookInformation.setIsbn(lineSplit[1].trim());
+
+					}
 					if (lineSplit[0].equalsIgnoreCase("name")) {
 						bookInformation.setName(lineSplit[1].trim());
 					}
@@ -45,7 +50,18 @@ public class TextParser implements Parser {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		return bookInformation;
+		if (bookInformation.getIsbn() == null || bookInformation.getIsbn().equals("")) {
+			try {
+				throw new ConversionException("ISBN Number not found");
+			} catch (Exception e) {
+				System.out.println(e.getLocalizedMessage());
+				bookInformation = null;
+				return bookInformation;
+			}
+		} else {
+			return bookInformation;
+		}
+
 	}
 
 }

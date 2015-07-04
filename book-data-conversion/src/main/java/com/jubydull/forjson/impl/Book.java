@@ -10,11 +10,20 @@ import com.jubydull.forjson.JSONAble;
 
 public class Book implements JSONAble {
 
+	private String isbn;
 	private String name;
 	private String[] authors;
 	private String publishedDate;
 
 	public Book() {
+	}
+
+	public String getIsbn() {
+		return isbn;
+	}
+
+	public void setIsbn(String isbn) {
+		this.isbn = isbn;
 	}
 
 	public String getName() {
@@ -52,7 +61,8 @@ public class Book implements JSONAble {
 	public JSONObject toJSON() {
 
 		Map jsonMap = new LinkedHashMap();
-		jsonMap.put("name", getName());
+		jsonMap.put("isbn", getIsbn())
+;		jsonMap.put("name", getName());
 		jsonMap.put("authors", getAuthorJson());
 		jsonMap.put("published­date", getPublishedDate());
 

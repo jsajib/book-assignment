@@ -1,11 +1,13 @@
 package com.jubydull.bean;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-public class BookInformation {
+public class BookInformation implements Serializable {
 
+	private String isbn;
 	private String name;
 	private String[] authors;
 
@@ -14,6 +16,14 @@ public class BookInformation {
 
 	public BookInformation() {
 
+	}
+
+	public String getIsbn() {
+		return isbn;
+	}
+
+	public void setIsbn(String isbn) {
+		this.isbn = isbn;
 	}
 
 	public String getName() {
@@ -42,9 +52,9 @@ public class BookInformation {
 
 	@Override
 	public String toString() {
-		return "BookInformation [name=" + name + ", authors="
-				+ Arrays.toString(authors) + ", publisheddate=" + publisheddate
-				+ "]";
+		return "isbn=" + isbn + "\n" + "name=" + name + "\n" + "authors="
+				+ Arrays.toString(authors) + "\n" + "published-date="
+				+ publisheddate;
 	}
 
 }
