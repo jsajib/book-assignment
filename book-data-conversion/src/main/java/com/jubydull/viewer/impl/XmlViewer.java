@@ -7,7 +7,6 @@ import javax.xml.bind.Marshaller;
 import com.jubydull.bean.BookInformation;
 import com.jubydull.forxml.XMLBook;
 import com.jubydull.viewer.Viewer;
-import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
 
 public class XmlViewer implements Viewer {
 
@@ -26,12 +25,7 @@ public class XmlViewer implements Viewer {
 			xmlBook.setAuthors(bookInformation.getAuthors());
 			xmlBook.setPublisheddate(bookInformation.getPublisheddate());
 			
-			NamespacePrefixMapper mapper = new NamespacePrefixMapper() {
-			    public String getPreferredPrefix(String namespaceUri, String suggestion, boolean requirePrefix) {
-			        return "b";
-			    }
-			};
-			jaxbMarshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", mapper);
+			//jaxbMarshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", (NamespacePrefixMapper) new XmlBookPrefix());
 			
 			//jaxbMarshaller.setProperty("com.sun.xml.bind.xmlDeclaration", Boolean.TRUE);
 			jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");

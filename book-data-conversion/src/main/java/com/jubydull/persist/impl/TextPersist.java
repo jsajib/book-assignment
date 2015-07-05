@@ -17,18 +17,18 @@ public class TextPersist implements Persist {
 	private static final String FILE_STORAGE = "output.txt";
 
 	public void save(Object persistObjet) {
-
+		System.out.println("save");
 		BookInformation bookInformation = (BookInformation) persistObjet;
-		PrintWriter pribtWritter = null;
+		PrintWriter printWritter = null;
 
 		File file = getFilePath(FILE_PATH_PREFIX + FILE_STORAGE);
 		try {
 			FileWriter fileWriteer = new FileWriter(file,true);
 			BufferedWriter bufferWritter = new BufferedWriter(fileWriteer);
-
-			pribtWritter = new PrintWriter(bufferWritter);
-			pribtWritter.println(bookInformation);
-			pribtWritter.write("=====");
+			printWritter = new PrintWriter(bufferWritter);
+			printWritter.println(bookInformation);
+			printWritter.println("=====");
+			printWritter.println("");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (SecurityException e) {
@@ -38,8 +38,8 @@ public class TextPersist implements Persist {
 			e.printStackTrace();
 		} finally {
 
-			if (pribtWritter != null) {
-				pribtWritter.close();
+			if (printWritter != null) {
+				printWritter.close();
 			}
 		}
 
