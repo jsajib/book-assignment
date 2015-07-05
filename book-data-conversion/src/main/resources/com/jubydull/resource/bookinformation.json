@@ -1,7 +1,7 @@
 {
     "book": {
 		"isbn": "u9348984995898493",
-        "name": "EffectiveJava",
+        "name": "Effective Java",
         "authors": [
             "JoshuaBloch",
             "JamesGosling"

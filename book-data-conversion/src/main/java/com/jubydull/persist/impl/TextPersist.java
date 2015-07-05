@@ -25,10 +25,10 @@ public class TextPersist implements Persist {
 		try {
 			FileWriter fileWriteer = new FileWriter(file,true);
 			BufferedWriter bufferWritter = new BufferedWriter(fileWriteer);
-			
+
 			pribtWritter = new PrintWriter(bufferWritter);
 			pribtWritter.println(bookInformation);
-			pribtWritter.write("");
+			pribtWritter.write("=====");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (SecurityException e) {

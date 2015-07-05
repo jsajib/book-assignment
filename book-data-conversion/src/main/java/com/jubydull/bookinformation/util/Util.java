@@ -14,6 +14,7 @@ import com.jubydull.parser.impl.TextParser;
 import com.jubydull.viewer.context.ViewerContext;
 import com.jubydull.viewer.impl.JsonViewer;
 import com.jubydull.viewer.impl.TextViewer;
+import com.jubydull.viewer.impl.XmlViewer;
 
 public class Util {
 
@@ -78,7 +79,10 @@ public class Util {
 		} else if (targerFormat
 				.equals(FormatEnum.txt.toString())) {
 			viewerContext.setViewer(new TextViewer());
-		} else {
+		} else if (targerFormat
+				.equals(FormatEnum.xml.toString())) {
+			viewerContext.setViewer(new XmlViewer());
+		}else {
 			viewerContext.setViewer(null);
 		}
 		
